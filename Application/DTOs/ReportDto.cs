@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Application.DTOs;
 
@@ -36,9 +37,11 @@ public class ReportDto
 	[Required(ErrorMessage = "O nome é obrigatório")]
 	[MinLength(3)]
 	[MaxLength(100)]
+	[JsonIgnore]
 	public string Name { get; set; } = String.Empty;
 
 	[Required(ErrorMessage = "O CPF é obrigatório")]
 	[MinLength(11)]
+	[JsonIgnore]
 	public string Cpf { get; set; } = String.Empty;
 }

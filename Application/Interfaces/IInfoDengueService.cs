@@ -4,5 +4,6 @@ namespace Application.Interfaces;
 
 public interface IInfoDengueService
 {
-	Task<IEnumerable<InfoDengueDto>> GetDataInfoDengue(int geocode, string disease, int ewStart, int ewEnd, int eyStart, int eyEnd);
+	Task<IEnumerable<InfoDengueDto>> GetDataInfoDengue(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear, int ibgeCode, int geocode);
+	Task<IEnumerable<InfoDengueDto>> GetDataInfoDengueByGeocodeRJSP(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear);
 }

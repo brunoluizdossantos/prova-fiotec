@@ -15,6 +15,7 @@ public class RequestersController : ControllerBase
 		_requesterService = requesterService;
 	}
 
+	/*
 	[HttpPost("CreateRequester")]
 	public async Task<ActionResult<RequesterDto>> Post([FromBody] RequesterDto requesterDto)
 	{
@@ -37,6 +38,7 @@ public class RequestersController : ControllerBase
 			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao tentar cadastrar solicitante");
 		}
 	}
+	*/
 
 	[HttpGet("GetAllRequesters")]
 	public async Task<ActionResult<IEnumerable<RequesterDto>>> GetAllRequesters()

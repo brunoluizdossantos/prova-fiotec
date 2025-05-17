@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Application.DTOs;
 
 public class RequesterDto
 {
+	[JsonIgnore]
 	public int RequesterId { get; set; }
 
 	[Required(ErrorMessage = "O nome é obrigatório")]
