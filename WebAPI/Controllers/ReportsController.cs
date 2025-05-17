@@ -12,11 +12,13 @@ namespace WebAPI.Controllers;
 [Produces(MediaTypeNames.Application.Json)]
 public class ReportsController : ControllerBase
 {
+	private readonly IInfoDengueService _infoDengueService;
 	private readonly IReportService _reportService;
 	private readonly IRequesterService _requesterService;
 
-	public ReportsController(IReportService reportService, IRequesterService requesterService)
+	public ReportsController(IInfoDengueService infoDengueService, IReportService reportService, IRequesterService requesterService)
 	{
+		_infoDengueService = infoDengueService;
 		_reportService = reportService;
 		_requesterService = requesterService;
 	}
@@ -116,14 +118,33 @@ public class ReportsController : ControllerBase
 	[HttpGet("GetTotalReportsByDisease")]
 	public async Task<ActionResult> GetTotalReportsByDisease()
 	{
-		return Ok();
+		try
+		{
+			return Ok();
+		}
+		catch (Exception e)
+		{
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao tentar obter os relatórios");
+		}
 	}
 
 	// Listar os dados epidemiológicos dos municípios pelo código IBGE, semana início, semana fim e arbovirose
 	[HttpGet("GetAllReportsByFilter")]
-	public async Task<ActionResult> GetAllReportsByFilter()
+	public async Task<ActionResult<IEnumerable<InfoDengueDto>>> GetAllReportsByFilter(int geocode = 3304557, string disease = "dengue", int ewStart = 1, int ewEnd = 50, int eyStart = 2017, int eyEnd = 2017)
 	{
-		return Ok();
+		try
+		{
+			var result = await _infoDengueService.GetDataInfoDengue(geocode, disease, ewStart, ewEnd, eyStart, eyEnd);
+
+			if (result == null)
+				return NotFound("A consulta não retornou nenhuma informação");
+
+			return Ok(result);
+		}
+		catch (Exception e)
+		{
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao tentar obter os relatórios");
+		}
 	}
 
 	private async Task<RequesterDto> GetRequester(RequesterDto requesterDto)

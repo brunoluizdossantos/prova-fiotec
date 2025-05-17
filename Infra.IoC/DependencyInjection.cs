@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Interfaces.Integration;
 using Application.Mappings;
 using Application.Services;
 using Domain.Interfaces;
@@ -8,6 +9,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Refit;
 
 namespace Infra.IoC;
 
@@ -22,8 +24,14 @@ public static class DependencyInjection
 		services.AddScoped<IReportRepository, ReportRepository>();
 		services.AddScoped<IRequesterRepository, RequesterRepository>();
 
+		services.AddScoped<IInfoDengueService, InfoDengueService>();
 		services.AddScoped<IReportService, ReportService>();
 		services.AddScoped<IRequesterService, RequesterService>();
+
+		services.AddRefitClient<IInfoDengueIntegrationService>().ConfigureHttpClient(c =>
+		{
+			c.BaseAddress = new Uri("https://info.dengue.mat.br");
+		});
 
 		services.AddAutoMapper(typeof(DomainToDtoMappingProfile));
 
