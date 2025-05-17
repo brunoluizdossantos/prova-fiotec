@@ -2,11 +2,14 @@
 using Application.Interfaces;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[ApiConventionType(typeof(DefaultApiConventions))]
+[Produces(MediaTypeNames.Application.Json)]
 public class ReportsController : ControllerBase
 {
 	private readonly IReportService _reportService;
@@ -18,7 +21,7 @@ public class ReportsController : ControllerBase
 		_requesterService = requesterService;
 	}
 
-	[HttpPost]
+	[HttpPost("CreateReport")]
 	public async Task<ActionResult<ReportDto>> Post([FromBody] ReportDto reportDto)
 	{
 		try
@@ -49,8 +52,7 @@ public class ReportsController : ControllerBase
 		}
 	}
 
-	// Deve ser possível listar todos os relatórios salvos no banco
-	[HttpGet(Name = "GetAllReports")]
+	[HttpGet("GetAllReports")]
 	public async Task<ActionResult<IEnumerable<RequesterDto>>> GetAllReports()
 	{
 		try
@@ -67,43 +69,62 @@ public class ReportsController : ControllerBase
 			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao tentar obter os relatórios");
 		}
 	}
-
-	/*
+	
 	// Listar todos os dados epidemiológicos do município do Rio de Janeiro e São Paulo
-	[HttpGet]
-	public async Task<ActionResult> GetAllByGeocode()
+	[HttpGet("GetAllReportsByGeocodeRJSP")]
+	public async Task<ActionResult> GetAllReportsByGeocode()
 	{
-		return Ok();	
+		try
+		{
+			return Ok();
+		}
+		catch (Exception e)
+		{
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao tentar obter os relatórios");
+		}
 	}
 
 	// Listar os dados epidemiológicos dos municípios pelo código IBGE
-	[HttpGet]
-	public async Task<ActionResult> GetAllByIbgeCode()
+	[HttpGet("GetAllReportsByIbgeCode")]
+	public async Task<ActionResult> GetAllReportsByIbgeCode()
 	{
-		return Ok();
+		try
+		{
+			return Ok();
+		}
+		catch (Exception e)
+		{
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao tentar obter os relatórios");
+		}
 	}
 
 	// Listar o total de casos epidemiológicos dos municípios do Rio de Janeiro e São Paulo
-	[HttpGet]
-	public async Task<ActionResult> GetTotalByGeocode()
+	[HttpGet("GetTotalReportsByGeocodeRJSP")]
+	public async Task<ActionResult> GetTotalReportsByGeocode()
 	{
-		return Ok();
+		try
+		{
+			return Ok();
+		}
+		catch (Exception e)
+		{
+			return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao tentar obter os relatórios");
+		}
 	}
 
 	// Listar o total de casos epidemiológicos dos municípios por arbovirose
-	[HttpGet]
-	public async Task<ActionResult> GetAllByDisease()
+	[HttpGet("GetTotalReportsByDisease")]
+	public async Task<ActionResult> GetTotalReportsByDisease()
 	{
 		return Ok();
 	}
 
 	// Listar os dados epidemiológicos dos municípios pelo código IBGE, semana início, semana fim e arbovirose
-	[HttpGet]
-	public async Task<ActionResult> GetAllByFilter()
+	[HttpGet("GetAllReportsByFilter")]
+	public async Task<ActionResult> GetAllReportsByFilter()
 	{
 		return Ok();
 	}
-	*/
 
 	private async Task<RequesterDto> GetRequester(RequesterDto requesterDto)
 	{

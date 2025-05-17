@@ -15,7 +15,7 @@ public class RequestersController : ControllerBase
 		_requesterService = requesterService;
 	}
 
-	[HttpPost]
+	[HttpPost("CreateRequester")]
 	public async Task<ActionResult<RequesterDto>> Post([FromBody] RequesterDto requesterDto)
 	{
 		try
@@ -38,7 +38,7 @@ public class RequestersController : ControllerBase
 		}
 	}
 
-	[HttpGet(Name = "GetAllRequesters")]
+	[HttpGet("GetAllRequesters")]
 	public async Task<ActionResult<IEnumerable<RequesterDto>>> GetAllRequesters()
 	{
 		try
