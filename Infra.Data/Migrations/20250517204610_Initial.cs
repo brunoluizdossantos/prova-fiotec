@@ -37,8 +37,8 @@ namespace Infra.Data.Migrations
                     EndWeek = table.Column<int>(type: "int", nullable: false),
                     StartYear = table.Column<int>(type: "int", nullable: false),
                     EndYear = table.Column<int>(type: "int", nullable: false),
-                    IbgeCode = table.Column<int>(type: "int", nullable: false),
-                    Geocode = table.Column<int>(type: "int", nullable: false),
+                    IbgeCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Geocode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     RequesterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

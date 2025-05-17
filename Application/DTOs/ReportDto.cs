@@ -27,21 +27,19 @@ public class ReportDto
 	public int EndYear { get; set; }
 
 	[Required(ErrorMessage = "O Código IBGE é obrigatório")]
-	public int IbgeCode { get; set; }
+	public string IbgeCode { get; set; } = String.Empty;
 
 	[Required(ErrorMessage = "O Município é obrigatório")]
-	public int Geocode { get; set; }
+	public string Geocode { get; set; } = String.Empty;
 
 	public int RequesterId { get; set; }
 
 	[Required(ErrorMessage = "O nome é obrigatório")]
-	[MinLength(3)]
 	[MaxLength(100)]
 	[JsonIgnore]
 	public string Name { get; set; } = String.Empty;
 
 	[Required(ErrorMessage = "O CPF é obrigatório")]
-	[MinLength(11)]
 	[JsonIgnore]
 	public string Cpf { get; set; } = String.Empty;
 }

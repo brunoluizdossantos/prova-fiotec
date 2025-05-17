@@ -15,8 +15,8 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
 		builder.Property(p => p.EndWeek).IsRequired();
 		builder.Property(p => p.StartYear).IsRequired();
 		builder.Property(p => p.EndYear).IsRequired();
-		builder.Property(p => p.IbgeCode).IsRequired();
-		builder.Property(p => p.Geocode).IsRequired();
+		builder.Property(p => p.IbgeCode).HasMaxLength(100).IsRequired();
+		builder.Property(p => p.Geocode).HasMaxLength(100).IsRequired();
 
 		builder.HasOne(e => e.Requester).WithMany(e => e.Reports).HasForeignKey(e => e.RequesterId);
 	}

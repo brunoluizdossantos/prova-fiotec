@@ -41,11 +41,15 @@ namespace Infra.Data.Migrations
                     b.Property<int>("EndYear")
                         .HasColumnType("int");
 
-                    b.Property<int>("Geocode")
-                        .HasColumnType("int");
+                    b.Property<string>("Geocode")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("IbgeCode")
-                        .HasColumnType("int");
+                    b.Property<string>("IbgeCode")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");

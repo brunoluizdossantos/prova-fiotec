@@ -15,11 +15,11 @@ public class InfoDengueService : IInfoDengueService
 	private readonly IMapper _mapper;
 	private readonly IMediator _mediator;
 
-	private readonly int _ibgeCodeRJ = 33;
-	private readonly int _geocodeRJ = 3304557;
+	private readonly string _ibgeCodeRJ = "33";
+	private readonly string _geocodeRJ = "3304557";
 
-	private readonly int _ibgeCodeSP = 35;
-	private readonly int _geocodeSP = 3550308;
+	private readonly string _ibgeCodeSP = "35";
+	private readonly string _geocodeSP = "3550308";
 
 	private readonly string _diseaseDengue = "dengue";
 	private readonly string _diseaseChikungunya = "chikungunya";
@@ -32,7 +32,7 @@ public class InfoDengueService : IInfoDengueService
 		_mediator = mediator;
 	}
 
-	public async Task<IEnumerable<InfoDengueDto>> GetDataInfoDengue(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear, int ibgeCode, int geocode)
+	public async Task<IEnumerable<InfoDengueDto>> GetDataInfoDengue(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear, string ibgeCode, string geocode)
 	{
 		if (disease.Length == 0)
 		{
@@ -50,8 +50,7 @@ public class InfoDengueService : IInfoDengueService
 
 	public async Task<IEnumerable<InfoDengueDto>> GetDataInfoDengueByGeocodeRJSP(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear)
 	{
-		await this.CreateRequesterAndReport(name, cpf, $"{_diseaseDengue}|{_diseaseChikungunya}|{_diseaseZika}", startWeek, endWeek, startYear, endYear, _ibgeCodeRJ, _geocodeRJ);
-		await this.CreateRequesterAndReport(name, cpf, $"{_diseaseDengue}|{_diseaseChikungunya}|{_diseaseZika}", startWeek, endWeek, startYear, endYear, _ibgeCodeSP, _geocodeSP);
+		await this.CreateRequesterAndReport(name, cpf, $"{_diseaseDengue}|{_diseaseChikungunya}|{_diseaseZika}", startWeek, endWeek, startYear, endYear, $"{_ibgeCodeRJ}|{_ibgeCodeSP}", $"{_geocodeRJ}|{_geocodeSP}");
 
 		var responseRJ = await this.GetDataInfoDengueByAllDeseases(name, cpf, startWeek, endWeek, startYear, endYear, _ibgeCodeRJ, _geocodeRJ);
 		var responseSP = await this.GetDataInfoDengueByAllDeseases(name, cpf, startWeek, endWeek, startYear, endYear, _ibgeCodeSP, _geocodeSP);
@@ -64,7 +63,7 @@ public class InfoDengueService : IInfoDengueService
 		return null;
 	}
 
-	private async Task CreateRequesterAndReport(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear, int ibgeCode, int geocode)
+	private async Task CreateRequesterAndReport(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear, string ibgeCode, string geocode)
 	{
 		var requesterId = await this.CreateRequester(name, cpf);
 
@@ -115,7 +114,7 @@ public class InfoDengueService : IInfoDengueService
 		return _mapper.Map<RequesterDto>(result);
 	}
 
-	private async Task<IEnumerable<InfoDengueDto>> GetDataInfoDengueByAllDeseases(string name, string cpf, int startWeek, int endWeek, int startYear, int endYear, int ibgeCode, int geocode)
+	private async Task<IEnumerable<InfoDengueDto>> GetDataInfoDengueByAllDeseases(string name, string cpf, int startWeek, int endWeek, int startYear, int endYear, string ibgeCode, string geocode)
 	{
 		var responseDengue = await this.GetDataInfoDengueByUniqueDesease(name, cpf, _diseaseDengue, startWeek, endWeek, startYear, endYear, ibgeCode, geocode);
 		var responseChikungunya = await this.GetDataInfoDengueByUniqueDesease(name, cpf, _diseaseChikungunya, startWeek, endWeek, startYear, endYear, ibgeCode, geocode);
@@ -129,9 +128,9 @@ public class InfoDengueService : IInfoDengueService
 		return null;
 	}
 
-	private async Task<IEnumerable<InfoDengueDto>> GetDataInfoDengueByUniqueDesease(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear, int ibgeCode, int geocode)
+	private async Task<IEnumerable<InfoDengueDto>> GetDataInfoDengueByUniqueDesease(string name, string cpf, string disease, int startWeek, int endWeek, int startYear, int endYear, string ibgeCode, string geocode)
 	{
-		var response = await _infoDengueIntegrationService.GetDataInfoDengue(geocode, disease, startWeek, endWeek, startYear, endYear);
+		var response = await _infoDengueIntegrationService.GetDataInfoDengue(Convert.ToInt32(geocode), disease, startWeek, endWeek, startYear, endYear);
 
 		if (response != null && response.IsSuccessStatusCode)
 			return response.Content;

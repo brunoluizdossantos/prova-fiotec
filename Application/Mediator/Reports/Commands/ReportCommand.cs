@@ -11,7 +11,7 @@ public class ReportCommand : IRequest<Report>
 	public int EndWeek { get; set; }
 	public int StartYear { get; set; }
 	public int EndYear { get; set; }
-	public int IbgeCode { get; set; }
-	public int Geocode { get; set; }
+	public string IbgeCode { get; set; } = string.Empty;
+	public string Geocode { get; set; } = string.Empty;
 	public int RequesterId { get; set; }
 }

@@ -41,7 +41,7 @@ public class ReportsController : ControllerBase
 	}	
 
 	[HttpGet("GetAllReportsByGeocodeRJSP")]
-	public async Task<ActionResult> GetAllReportsByGeocode(string name = "Micka xxx", string cpf = "56756756700")
+	public async Task<ActionResult> GetAllReportsByGeocode(string name, string cpf)
 	{
 		try
 		{
@@ -59,7 +59,7 @@ public class ReportsController : ControllerBase
 	}
 
 	[HttpGet("GetAllReportsByIbgeCode")]
-	public async Task<ActionResult> GetAllReportsByIbgeCode(string name = "Micka xxx", string cpf = "56756756700", int ibgeCode = 33, int geocode = 3304557)
+	public async Task<ActionResult> GetAllReportsByIbgeCode(string name, string cpf, string ibgeCode, string geocode)
 	{
 		try
 		{
@@ -77,7 +77,7 @@ public class ReportsController : ControllerBase
 	}
 
 	[HttpGet("GetTotalReportsByGeocodeRJSP")]
-	public async Task<ActionResult<int>> GetTotalReportsByGeocode(string name = "Micka xxx", string cpf = "56756756700")
+	public async Task<ActionResult<int>> GetTotalReportsByGeocode(string name, string cpf)
 	{
 		try
 		{
@@ -95,11 +95,11 @@ public class ReportsController : ControllerBase
 	}
 
 	[HttpGet("GetTotalReportsByDisease")]
-	public async Task<ActionResult> GetTotalReportsByDisease(string name = "Micka xxx", string cpf = "56756756700", string disease = "dengue")
+	public async Task<ActionResult> GetTotalReportsByDisease(string name, string cpf, string disease)
 	{
 		try
 		{
-			var result = await _infoDengueService.GetDataInfoDengue(name, cpf, disease, 1, 53, DateTime.Now.Year, DateTime.Now.Year, 0, 0);
+			var result = await _infoDengueService.GetDataInfoDengue(name, cpf, disease, 1, 53, DateTime.Now.Year, DateTime.Now.Year, "0", "0");
 
 			if (result == null)
 				return NotFound("A consulta não retornou nenhuma informação");
@@ -113,7 +113,7 @@ public class ReportsController : ControllerBase
 	}
 
 	[HttpGet("GetAllReportsByFilter")]
-	public async Task<ActionResult<IEnumerable<InfoDengueDto>>> GetAllReportsByFilter(string name = "Micka xxx", string cpf = "56756756700", string disease = "dengue", int startWeek = 1, int endWeek = 53, int ibgeCode = 33, int geocode = 3304557)
+	public async Task<ActionResult<IEnumerable<InfoDengueDto>>> GetAllReportsByFilter(string name, string cpf, string disease, int startWeek, int endWeek, string ibgeCode, string geocode)
 	{
 		try
 		{
